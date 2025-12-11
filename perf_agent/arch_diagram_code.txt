@@ -1,0 +1,30 @@
+direction: right
+user_node [label: "User", icon: user]
+streamlit_frontend_node [label: "Streamlit Frontend", icon: monitor]
+results_dashboard_node [label: "Results Dashboard", icon: bar-chart-2]
+fastapi_backend_node [label: "FastAPI Backend", icon: server]
+target_website_node [label: "Target Website", icon: cloud]
+apache_jmeter_node [label: "Apache JMeter (CLI Mode)", icon: jmeter]
+file_system_node [label: "File System", icon: database]
+
+ai_agent_orchestrator_group [label: "AI Agent Orchestrator (CrewAI / LangGraph)", color: blue, icon: cpu] {
+    script_generator_agent_node [label: "Script Generator Agent", icon: user]
+    llm_node [label: "LLM (e.g., GPT-4o)", icon: brain]
+    test_runner_analyst_agent_node [label: "Test Runner & Analyst Agent", icon: user]
+}
+
+// connections
+user_node > streamlit_frontend_node
+streamlit_frontend_node > fastapi_backend_node: 1. Submit Parameters
+fastapi_backend_node > script_generator_agent_node: 2. Trigger & Coordinate Agents
+script_generator_agent_node > llm_node
+llm_node > script_generator_agent_node
+script_generator_agent_node > test_runner_analyst_agent_node
+test_runner_analyst_agent_node > apache_jmeter_node: 4. Execute Test Command
+script_generator_agent_node > apache_jmeter_node: 3. Generate .jmx
+apache_jmeter_node > target_website_node: 5. Run Load Test
+apache_jmeter_node > file_system_node: 6. Save Results (.csv, .html)
+file_system_node > test_runner_analyst_agent_node: 7. Read & Analyze
+test_runner_analyst_agent_node > fastapi_backend_node: Analyze Results
+fastapi_backend_node > results_dashboard_node: 9. Display Results
+test_runner_analyst_agent_node > fastapi_backend_node: 8. Return Summary Report
