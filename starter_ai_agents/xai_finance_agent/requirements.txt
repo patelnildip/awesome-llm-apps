@@ -1,5 +1,0 @@
-agno>=2.2.10
-duckduckgo-search
-yfinance
-fastapi[standard] 
-openai
